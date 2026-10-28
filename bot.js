@@ -5,6 +5,7 @@ const {
   DISCORD_BOT_TOKEN,
   WORKER_URL,
   INGEST_SECRET,
+  OWNER_USER_ID,
   PORT = 3000,
 } = process.env;
 
@@ -36,6 +37,7 @@ client.on("shardError", (err) => console.error("shard error:", err.message));
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot || message.channel.type !== ChannelType.DM) return;
+  if (OWNER_USER_ID && message.author.id !== OWNER_USER_ID) return;
 
   const attachments = [...message.attachments.values()];
   const images = attachments
