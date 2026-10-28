@@ -66,7 +66,9 @@ client.on("messageCreate", async (message) => {
     });
     const data = await res.json().catch(() => ({}));
     const reply = res.ok
-      ? `Saved.\n\n${data.summary ?? ""}`
+      ? data.saved
+        ? `Saved.\n\n${data.summary ?? ""}`
+        : data.summary ?? ""
       : `Failed: ${data.error ?? res.status}`;
     await message.reply(reply.slice(0, 1900));
   } catch (err) {
